@@ -3,21 +3,28 @@
 </svelte:head>
 
 <script lang="ts">
- import dayjs from 'dayjs'
- 
- let period = dayjs().format('a')=='am'?'morning':'evening';
+import Header from "$lib/Header.svelte";
+import {tasks} from '$lib/stores/tasks';
+import dayjs from "dayjs";
+
+let title="";
+function addTask() {
+ tasks.update((currentTasks) => {
+ currentTasks.push({
+  title,
+  assignedDate: dayjs(),
+  isDone: false,
+  });
+  return currentTasks;
+ });
+ title="";
+}
 </script>
 
-<div class="p-14">
-  <header class="flex justify-between">
-    <div>
-      <h1 class="text-4xl mb-2">Hi, Good {period} 👋</h1>
-      <h2 class="text-lg"></h2>
-      <h2 class="text-surface-500/80">
-      Today, 
-      {dayjs().format('dddd D MMM YYYY')}
-      </h2>
-    </div>
-    <div class="bg-white w-32 h-14"></div>
-  </header>
+<div class="p-14 flex flex-col gap-6">
+  <Header />
+  <div class="input-group input-group-divider flex justify-between rounded-full">
+    <input bind:value={title} class ="flex-1 !bg-white" type="search" placeholder="Task..." />
+    <button on:click={addTask} class="variant-soft-tertiary">Add</button>
+   </div>
 </div>
