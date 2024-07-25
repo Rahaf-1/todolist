@@ -23,15 +23,15 @@
 
 <header class="flex justify-between">
   <div>
-    <h1 class="text-4xl mb-2">Hi, Good {period} 👋</h1>
+    <h1 class="text-3xl lg:text-4xl mb-2">Hi, Good {period} 👋</h1>
     <h2 class="text-lg">{checking}</h2>
-    <h2 class="text-surface-900">
+    <h2 class=" text-lg text-surface-900">
       Today,
       {dayjs().format("dddd D MMM YYYY")}
     </h2>
   </div>
   <button
-    class="btn variant-filled-secondary w-48 h-fit py-3 justify-between rounded-full"
+    class="btn variant-filled-secondary w-40 h-fit py-3 justify-between rounded-full"
     use:popup={popupCombobox}
   >
     <span class="capitalize">{comboboxValue}</span>
