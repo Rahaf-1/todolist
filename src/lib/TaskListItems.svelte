@@ -3,6 +3,8 @@
   import { tasks } from "$lib/stores/tasks";
   import relativeTime from "dayjs/plugin/relativeTime";
   import { getModalStore, type ModalSettings } from '@skeletonlabs/skeleton';
+  import { slide } from 'svelte/transition';
+  import {filter} from "$lib/stores/filter";
  
   dayjs.extend(relativeTime);	
   const modalStore = getModalStore();     
@@ -18,7 +20,7 @@ function confirmDelete(task :Task){
     if (r) {
         tasks.update((currentTasks) => {
         let index = currentTasks.indexOf(task);
-        currentTasks.slice(index, 1);
+        currentTasks.splice(index, 1);
         return currentTasks;
       });
     }
@@ -26,11 +28,23 @@ function confirmDelete(task :Task){
 };
 modalStore.trigger(modal);
 }
+
+function applyFilter(filter: typeof $filter, task: Task) : boolean {
+  switch (filter){
+    case "Today’s Tasks":
+      return dayjs(task.assignedDate).unix() - dayjs().unix() <= 24*60*60;
+    case "All Tasks":
+    default:
+      return true;
+
+  }
+}
 </script>
 
 {#each $tasks as task}
-  {#if task.isDone == doneTasks}
+  {#if task.isDone == doneTasks && applyFilter($filter, task)}
     <li
+      transition:slide = {{duration:200}}
       class="bg-secondary-500 p-2 rounded-lg flex justify-between items-center"
     >
       <div>

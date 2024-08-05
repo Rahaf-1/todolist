@@ -6,13 +6,13 @@
     type PopupSettings,
   } from "@skeletonlabs/skeleton";
   import dayjs from "dayjs";
+  import {filter} from "$lib/stores/filter";
 
   let period = dayjs().format("a") == "am" ? "morning" : "evening";
   let checking = "";
   if (period == "morning") checking = "Are you ready to start your day?";
   else checking = "How’s your day going so far?, Keep up the  great work!";
-  let comboboxValue: string = "all tasks";
-  $: console.log(comboboxValue);
+
   const popupCombobox: PopupSettings = {
     event: "click",
     target: "popupCombobox",
@@ -34,15 +34,15 @@
     class="btn variant-filled-secondary w-40 h-fit py-3 justify-between rounded-full"
     use:popup={popupCombobox}
   >
-    <span class="capitalize">{comboboxValue}</span>
+    <span class="capitalize">{$filter}</span>
     <span>↓</span>
   </button>
   <div class="card w-48 shadow-xl py-2" data-popup="popupCombobox">
     <ListBox rounded="rounded-none" active="variant-filled-surface">
-      <ListBoxItem bind:group={comboboxValue} name="medium" value="All Tasks"
+      <ListBoxItem bind:group={$filter} name="medium" value="All Tasks"
         >All Tasks</ListBoxItem
       >
-      <ListBoxItem bind:group={comboboxValue} name="medium" value="Today’s Tasks"
+      <ListBoxItem bind:group={$filter} name="medium" value="Today’s Tasks"
         >Today’s Tasks</ListBoxItem
       >
     </ListBox>
