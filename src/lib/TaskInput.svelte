@@ -19,7 +19,7 @@
   }
 </script>
 
-<div class="input-group input-group-divider flex flex-col sm:flex-row justify-between bg-white">
+<form class="input-group input-group-divider flex flex-col sm:flex-row justify-between bg-white">
   <input
     bind:value={title}
     class="flex-1 "
@@ -27,9 +27,9 @@
     placeholder="Task..."
   />
   <input bind:value={datetime} class="input sm:w-fit" title="Input (datetime-local)" type="datetime-local" />
-  <button on:click={addTask} class=" variant-soft-tertiary p-2">
+  <button on:click={addTask} class=" variant-soft-tertiary p-2}" disabled={title.trim().length == 0}>
     <span class="mx-auto">
       Add
     </span>
   </button>
-</div>
+</form>
