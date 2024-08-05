@@ -1,6 +1,7 @@
 <script lang="ts">
 	import '../app.postcss';
-
+	// @ts-ignore
+    import { pwaInfo } from 'virtual:pwa-info'; 
 	// Floating UI for Popups
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
 	import { storePopup } from '@skeletonlabs/skeleton';
@@ -8,6 +9,13 @@
 	import { initializeStores, Modal } from '@skeletonlabs/skeleton';
 
 initializeStores();
+
+$: webManifestLink = pwaInfo ? pwaInfo.webManifest.linkTag : "";
 </script>
+
+<svelte:head> 
+ 	{@html webManifestLink} 
+</svelte:head>
+
 <Modal buttonPositive="bg-red-600/70"buttonNeutral="bg-gray-200"/>
 <slot />
